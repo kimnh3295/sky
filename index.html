@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .sky {
+            background-image: url(./img/낮.jpg);
+            height: 100vh;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center;
+        }
+
+        .rainbow {
+            background-image: url(./img/rainbow.jpg);
+            height: 100vh;
+            width: 100%;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            mix-blend-mode: multiply;
+            filter: brightness(1.2) blur(35px);
+
+            animation-name: rainbow;
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+            animation-duration: 15s;
+            animation-direction: alternate;
+            transform-origin: top;
+        }
+
+        @keyframes rainbow {
+            from {
+                transform: scaleX(1) scaleY(0);
+            }
+
+            to {
+                transform: scaleX(1) scaleY(1);
+            }
+        }
+
+        .sun {
+            filter: brightness(1.3);
+            transition: 2s;
+        }
+
+        .night {
+            filter: brightness(0.3);
+            transition: 2s;
+        }
+
+        input {
+            border: 2px solid rebeccapurple;
+            height: 50px;
+            border-radius: 50px;
+        }
+
+        .div {
+            border: 1px solid black;
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            left: calc(100% - 55vw);
+            bottom: calc(100% - 50vh);
+            border-radius: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 10;
+        }
+
+        img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50px;
+        }
+
+        img:hover {
+            cursor: pointer;
+            border: 1px solid rebeccapurple;
+            filter: brightness(0.7);
+        }
+
+        .date {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            z-index: 50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div">
+        <input type="number" placeholder="시간을 입력해 주세요 24h">
+        <img src="./img/돋보기.jpg" alt="" onclick="
+
+        let tag = document.querySelector('input');
+        let next = this.parentElement.nextElementSibling;
+
+        // 시간 = tag.value
+        // 만약에 input 태그 값이 밤 8시(20시)미만 6시초과이면 낮
+        // 만약에 input 태그 값이 6시이하 밤 8시이상이면 밤
+        
+        if(tag.value != '') {
+            if ((Number(tag.value) < 20) && (Number(tag.value) > 6)) {
+                console.log('sun',tag.value);
+
+                if(next.classList.contains('night')) {
+                    next.classList.replace('night','sun');
+                }
+            } else if((Number(tag.value) >= 20) || (Number(tag.value) <= 6)) {
+                console.log('night',tag.value);
+                
+                if(next.classList.contains('sun')) {
+                    next.classList.replace('sun','night');
+                }
+            }
+        }
+        ">
+    </div>
+
+    <div class="sky sun">
+        <div class="rainbow"></div>
+    </div>
+    <div class="date">현재 시간</div>
+
+    <div class="date"></div>
+
+    <script>
+        const div = document.querySelector('.date');
+
+        const getD = (now) => {
+            const d = new Date(now);
+
+            const 년 = d.getFullYear();
+            const 월 = d.getMonth() + 1;
+            const 일 = d.getDate();
+            const 시 = d.getHours();
+            const 분 = d.getMinutes();
+            const 초 = d.getSeconds();
+
+            return `현재 시간 : ${년}년 ${월}월 ${일}일 ${시}시 ${분}분 ${초}초`;
+        };
+
+        setInterval(() => {
+            div.innerHTML = getD(Date.now());
+        }, 1000);
+    </script>
+</body>
+
+</html>
